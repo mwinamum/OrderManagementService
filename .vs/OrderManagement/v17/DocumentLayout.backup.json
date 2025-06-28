@@ -1,12 +1,88 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Projects\\OrderManagement\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{409755F1-2A8B-4458-B8C1-DBCF7466391C}|OrderManagementServiceTests\\OrderManagementServiceTests.csproj|d:\\projects\\ordermanagement\\ordermanagementservicetests\\integrationtests\\analyticscontrollertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{409755F1-2A8B-4458-B8C1-DBCF7466391C}|OrderManagementServiceTests\\OrderManagementServiceTests.csproj|solutionrelative:ordermanagementservicetests\\integrationtests\\analyticscontrollertest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3FE02205-D444-49FB-8C1A-598D32619A44}|OrderManagementService\\OrderManagementService.csproj|d:\\projects\\ordermanagement\\ordermanagementservice\\controllers\\analyticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3FE02205-D444-49FB-8C1A-598D32619A44}|OrderManagementService\\OrderManagementService.csproj|solutionrelative:ordermanagementservice\\controllers\\analyticscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{409755F1-2A8B-4458-B8C1-DBCF7466391C}|OrderManagementServiceTests\\OrderManagementServiceTests.csproj|d:\\projects\\ordermanagement\\ordermanagementservicetests\\unittests\\discountruletests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{409755F1-2A8B-4458-B8C1-DBCF7466391C}|OrderManagementServiceTests\\OrderManagementServiceTests.csproj|solutionrelative:ordermanagementservicetests\\unittests\\discountruletests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{409755F1-2A8B-4458-B8C1-DBCF7466391C}|OrderManagementServiceTests\\OrderManagementServiceTests.csproj|d:\\projects\\ordermanagement\\ordermanagementservicetests\\integrationtests\\customwebapplicationfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{409755F1-2A8B-4458-B8C1-DBCF7466391C}|OrderManagementServiceTests\\OrderManagementServiceTests.csproj|solutionrelative:ordermanagementservicetests\\integrationtests\\customwebapplicationfactory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AnalyticsController.cs",
+              "DocumentMoniker": "D:\\Projects\\OrderManagement\\OrderManagementService\\Controllers\\AnalyticsController.cs",
+              "RelativeDocumentMoniker": "OrderManagementService\\Controllers\\AnalyticsController.cs",
+              "ToolTip": "D:\\Projects\\OrderManagement\\OrderManagementService\\Controllers\\AnalyticsController.cs",
+              "RelativeToolTip": "OrderManagementService\\Controllers\\AnalyticsController.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAArwDkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T09:21:10.562Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AnalyticsControllerTest.cs",
+              "DocumentMoniker": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\IntegrationTests\\AnalyticsControllerTest.cs",
+              "RelativeDocumentMoniker": "OrderManagementServiceTests\\IntegrationTests\\AnalyticsControllerTest.cs",
+              "ToolTip": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\IntegrationTests\\AnalyticsControllerTest.cs",
+              "RelativeToolTip": "OrderManagementServiceTests\\IntegrationTests\\AnalyticsControllerTest.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAADwvy8AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T08:48:36.763Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CustomWebApplicationFactory.cs",
+              "DocumentMoniker": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\IntegrationTests\\CustomWebApplicationFactory.cs",
+              "RelativeDocumentMoniker": "OrderManagementServiceTests\\IntegrationTests\\CustomWebApplicationFactory.cs",
+              "ToolTip": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\IntegrationTests\\CustomWebApplicationFactory.cs",
+              "RelativeToolTip": "OrderManagementServiceTests\\IntegrationTests\\CustomWebApplicationFactory.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAwwDEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T08:48:10.352Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DiscountRuleTests.cs",
+              "DocumentMoniker": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\UnitTests\\DiscountRuleTests.cs",
+              "RelativeDocumentMoniker": "OrderManagementServiceTests\\UnitTests\\DiscountRuleTests.cs",
+              "ToolTip": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\UnitTests\\DiscountRuleTests.cs",
+              "RelativeToolTip": "OrderManagementServiceTests\\UnitTests\\DiscountRuleTests.cs",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAYwCkAAADsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-28T08:48:56.004Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

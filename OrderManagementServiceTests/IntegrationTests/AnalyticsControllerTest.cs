@@ -1,73 +1,91 @@
-﻿using OrderManagementService.Dtos;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
+using OrderManagementService.Controllers;
+using OrderManagementService.Dtos;
 using OrderManagementService.Enum;
-using System.Net;
-using System.Text;
-using System.Text.Json;
+using OrderManagementService.Interfaces;
+using OrderManagementService.Models;
 
-namespace OrderManagementServiceTests.IntegrationTests
+namespace OrderManagementServiceTests.UnitTests
 {
     [TestFixture]
-    public class AnalyticsControllerTests
+    public class AnalyticsControllerUnitTests
     {
-        private HttpClient? _client;
-        private CustomWebApplicationFactory? _factory;
+        private Mock<IOrderService> _orderServiceMock;
+        private Mock<IMapper> _mapperMock;
+        private AnalyticsController _controller;
 
         [SetUp]
         public void SetUp()
         {
-            try
-            {
-                _factory = new CustomWebApplicationFactory();
-                _client = _factory.CreateClient();
-            }
-            catch (Exception ex)
-            {
-                var errorMessage = $"Failed to initialize test environment. Ensure project configuration is correct.\n" +
-                                  $"Error: {ex.Message}\n" +
-                                  $"StackTrace: {ex.StackTrace}\n" +
-                                  $"Inner Exception: {ex.InnerException?.Message ?? "None"}\n" +
-                                  $"Inner StackTrace: {ex.InnerException?.StackTrace ?? "None"}";
-                Assert.Inconclusive(errorMessage);
-            }
+            _orderServiceMock = new Mock<IOrderService>();
+            _mapperMock = new Mock<IMapper>();
+            _controller = new AnalyticsController(_orderServiceMock.Object, _mapperMock.Object);
         }
 
         [Test]
-        public async Task GetAnalytics_WithOrders_ReturnsCorrectAnalytics()
+        public async Task GetAnalytics_WithDeliveredOrders_ReturnsCorrectAnalytics()
         {
-            var orderDto = new OrderCreateDto { TotalAmount = 100m, CustomerName = "John Doe", CustomerEmail = "john@example.com", ShippingAddress = "123 Main St" };
-            var content = new StringContent(JsonSerializer.Serialize(orderDto), Encoding.UTF8, "application/json");
-            await _client!.PostAsync("/api/orders?customerId=1", content);
+            // Arrange
+            var orders = new List<Order>
+            {
+                new Order { TotalAmount = 100m, OrderDate = DateTime.Now.AddDays(-1), DeliveredDate = DateTime.Now, Status = OrderStatus.Delivered },
+                new Order { TotalAmount = 200m, OrderDate = DateTime.Now.AddDays(-1), DeliveredDate = DateTime.Now, Status = OrderStatus.Delivered }
+            };
+            _orderServiceMock.Setup(s => s.GetAllOrdersAsync()).ReturnsAsync(orders);
 
-            var statusDto = new OrderStatusUpdateDto { Status = OrderStatus.Delivered };
-            var statusContent = new StringContent(JsonSerializer.Serialize(statusDto), Encoding.UTF8, "application/json");
-            await _client!.PutAsync("/api/orders/1/status", statusContent);
+            // Act
+            var result = await _controller.GetAnalytics();
 
-            var response = await _client!.GetAsync("/api/analytics/summary");
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            var analytics = JsonSerializer.Deserialize<AnalyticsDto>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            // Assert
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result as OkObjectResult;
+            var analytics = okResult.Value as AnalyticsDto;
             Assert.That(analytics, Is.Not.Null);
-            Assert.That(analytics.AverageOrderValue, Is.EqualTo(85m)); // 100 - 15% discount
-            Assert.That(analytics.AverageFulfillmentTime, Is.GreaterThanOrEqualTo(0));
+            Assert.That(analytics.AverageOrderValue, Is.EqualTo(150m).Within(0.01m)); // (100 + 200) / 2
+            Assert.That(analytics.AverageFulfillmentTime, Is.EqualTo(24.0).Within(0.01)); // Average of 24 and 24 hours
         }
 
         [Test]
         public async Task GetAnalytics_NoOrders_ReturnsZeroValues()
         {
-            var response = await _client!.GetAsync("/api/analytics/summary");
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            var analytics = JsonSerializer.Deserialize<AnalyticsDto>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            // Arrange
+            _orderServiceMock.Setup(s => s.GetAllOrdersAsync()).ReturnsAsync(new List<Order>());
+
+            // Act
+            var result = await _controller.GetAnalytics();
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result as OkObjectResult;
+            var analytics = okResult.Value as AnalyticsDto;
             Assert.That(analytics, Is.Not.Null);
             Assert.That(analytics.AverageOrderValue, Is.EqualTo(0m));
             Assert.That(analytics.AverageFulfillmentTime, Is.EqualTo(0.0));
         }
 
-        [TearDown]
-        public void TearDown()
+        [Test]
+        public async Task GetAnalytics_NoDeliveredOrders_ReturnsZeroFulfillmentTime()
         {
-            _client?.Dispose();
-            _factory?.Dispose();
-            _client = null;
-            _factory = null;
+            // Arrange
+            var orders = new List<Order>
+            {
+                new Order { TotalAmount = 100m, Status = OrderStatus.Pending, OrderDate = DateTime.Now },
+                new Order { TotalAmount = 200m, Status = OrderStatus.Processing, OrderDate = DateTime.Now }
+            };
+            _orderServiceMock.Setup(s => s.GetAllOrdersAsync()).ReturnsAsync(orders);
+
+            // Act
+            var result = await _controller.GetAnalytics();
+
+            // Assert
+            Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            var okResult = result as OkObjectResult;
+            var analytics = okResult.Value as AnalyticsDto;
+            Assert.That(analytics, Is.Not.Null);
+            Assert.That(analytics.AverageOrderValue, Is.EqualTo(150m).Within(0.01m)); // (100 + 200) / 2
+            Assert.That(analytics.AverageFulfillmentTime, Is.EqualTo(0.0));
         }
     }
 }
