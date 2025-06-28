@@ -37,6 +37,7 @@
       "OrderManagementServiceTests/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Testing": "8.0.0",
+          "Microsoft.AspNetCore.TestHost": "8.0.10",
           "Microsoft.EntityFrameworkCore.InMemory": "8.0.10",
           "Microsoft.NET.Test.Sdk": "17.8.0",
           "NUnit": "4.3.2",
@@ -399,7 +400,7 @@
       "coverlet.collector/6.0.0": {},
       "Microsoft.AspNetCore.Mvc.Testing/8.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.TestHost": "8.0.0",
+          "Microsoft.AspNetCore.TestHost": "8.0.10",
           "Microsoft.Extensions.DependencyModel": "8.0.1",
           "Microsoft.Extensions.Hosting": "8.0.0"
         },
@@ -413,14 +414,14 @@
           "lib/net8.0/Microsoft.AspNetCore.Mvc.Testing.dll": {}
         }
       },
-      "Microsoft.AspNetCore.TestHost/8.0.0": {
+      "Microsoft.AspNetCore.TestHost/8.0.10": {
         "dependencies": {
           "System.IO.Pipelines": "8.0.0"
         },
         "runtime": {
           "lib/net8.0/Microsoft.AspNetCore.TestHost.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.0.23.53112"
+            "assemblyVersion": "8.0.10.0",
+            "fileVersion": "8.0.1024.46804"
           }
         },
         "compile": {
@@ -3205,12 +3206,12 @@
       "path": "microsoft.aspnetcore.mvc.testing/8.0.0",
       "hashPath": "microsoft.aspnetcore.mvc.testing.8.0.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.TestHost/8.0.0": {
+    "Microsoft.AspNetCore.TestHost/8.0.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Rk6Ai9bFf1KubVY5oEbEPN5fiKWW2oeU+easjokyUqqYyTHRsXlkjFeMvwecgoXsoTfXMSwEHzJp8FCjQcyYTQ==",
-      "path": "microsoft.aspnetcore.testhost/8.0.0",
-      "hashPath": "microsoft.aspnetcore.testhost.8.0.0.nupkg.sha512"
+      "sha512": "sha512-4mBNOllpDEmgzF+c7ZfnPM7CnuD25TQ7V6VMz8a66EqAyzx3Hys9rSoO4PahsmNPQc6LtB3tJG/QU/BBUbR9+w==",
+      "path": "microsoft.aspnetcore.testhost/8.0.10",
+      "hashPath": "microsoft.aspnetcore.testhost.8.0.10.nupkg.sha512"
     },
     "Microsoft.CodeCoverage/17.8.0": {
       "type": "package",

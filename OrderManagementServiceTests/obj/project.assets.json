@@ -77,7 +77,7 @@
           "buildTransitive/net8.0/Microsoft.AspNetCore.Mvc.Testing.targets": {}
         }
       },
-      "Microsoft.AspNetCore.TestHost/8.0.0": {
+      "Microsoft.AspNetCore.TestHost/8.0.10": {
         "type": "package",
         "dependencies": {
           "System.IO.Pipelines": "8.0.0"
@@ -1705,10 +1705,10 @@
         "tasks/netstandard2.0/Microsoft.AspNetCore.Mvc.Testing.Tasks.dll"
       ]
     },
-    "Microsoft.AspNetCore.TestHost/8.0.0": {
-      "sha512": "Rk6Ai9bFf1KubVY5oEbEPN5fiKWW2oeU+easjokyUqqYyTHRsXlkjFeMvwecgoXsoTfXMSwEHzJp8FCjQcyYTQ==",
+    "Microsoft.AspNetCore.TestHost/8.0.10": {
+      "sha512": "4mBNOllpDEmgzF+c7ZfnPM7CnuD25TQ7V6VMz8a66EqAyzx3Hys9rSoO4PahsmNPQc6LtB3tJG/QU/BBUbR9+w==",
       "type": "package",
-      "path": "microsoft.aspnetcore.testhost/8.0.0",
+      "path": "microsoft.aspnetcore.testhost/8.0.10",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1716,7 +1716,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net8.0/Microsoft.AspNetCore.TestHost.dll",
         "lib/net8.0/Microsoft.AspNetCore.TestHost.xml",
-        "microsoft.aspnetcore.testhost.8.0.0.nupkg.sha512",
+        "microsoft.aspnetcore.testhost.8.0.10.nupkg.sha512",
         "microsoft.aspnetcore.testhost.nuspec"
       ]
     },
@@ -3978,6 +3978,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "Microsoft.AspNetCore.Mvc.Testing >= 8.0.0",
+      "Microsoft.AspNetCore.TestHost >= 8.0.10",
       "Microsoft.EntityFrameworkCore.InMemory >= 8.0.10",
       "Microsoft.NET.Test.Sdk >= 17.8.0",
       "NUnit >= 4.3.2",
@@ -4044,6 +4045,10 @@
           "Microsoft.AspNetCore.Mvc.Testing": {
             "target": "Package",
             "version": "[8.0.0, )"
+          },
+          "Microsoft.AspNetCore.TestHost": {
+            "target": "Package",
+            "version": "[8.0.10, )"
           },
           "Microsoft.EntityFrameworkCore.InMemory": {
             "target": "Package",

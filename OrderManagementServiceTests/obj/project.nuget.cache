@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "bSeRGY59MLQ=",
+  "dgSpecHash": "oxnIXF8CkpU=",
   "success": true,
   "projectFilePath": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj",
   "expectedPackageFiles": [
@@ -9,7 +9,7 @@
     "C:\\Users\\Kodak\\.nuget\\packages\\castle.core\\5.1.1\\castle.core.5.1.1.nupkg.sha512",
     "C:\\Users\\Kodak\\.nuget\\packages\\coverlet.collector\\6.0.0\\coverlet.collector.6.0.0.nupkg.sha512",
     "C:\\Users\\Kodak\\.nuget\\packages\\microsoft.aspnetcore.mvc.testing\\8.0.0\\microsoft.aspnetcore.mvc.testing.8.0.0.nupkg.sha512",
-    "C:\\Users\\Kodak\\.nuget\\packages\\microsoft.aspnetcore.testhost\\8.0.0\\microsoft.aspnetcore.testhost.8.0.0.nupkg.sha512",
+    "C:\\Users\\Kodak\\.nuget\\packages\\microsoft.aspnetcore.testhost\\8.0.10\\microsoft.aspnetcore.testhost.8.0.10.nupkg.sha512",
     "C:\\Users\\Kodak\\.nuget\\packages\\microsoft.codecoverage\\17.8.0\\microsoft.codecoverage.17.8.0.nupkg.sha512",
     "C:\\Users\\Kodak\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
     "C:\\Users\\Kodak\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.8\\microsoft.data.sqlite.core.8.0.8.nupkg.sha512",
