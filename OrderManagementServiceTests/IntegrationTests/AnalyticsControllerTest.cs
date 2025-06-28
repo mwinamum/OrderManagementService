@@ -4,13 +4,13 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 
-namespace OrderManagementService.Tests.IntegrationTests
+namespace OrderManagementServiceTests.IntegrationTests
 {
     [TestFixture]
     public class AnalyticsControllerTests
     {
-        private HttpClient _client;
-        private CustomWebApplicationFactory _factory;
+        private HttpClient? _client;
+        private CustomWebApplicationFactory? _factory;
 
         [SetUp]
         public void SetUp()
@@ -34,30 +34,17 @@ namespace OrderManagementService.Tests.IntegrationTests
         [Test]
         public async Task GetAnalytics_WithOrders_ReturnsCorrectAnalytics()
         {
-            // Arrange: Create an order
-            var orderDto = new OrderCreateDto
-            {
-                TotalAmount = 100m,
-                CustomerName = "John Doe",
-                CustomerEmail = "john@example.com",
-                ShippingAddress = "123 Main St"
-            };
+            var orderDto = new OrderCreateDto { TotalAmount = 100m, CustomerName = "John Doe", CustomerEmail = "john@example.com", ShippingAddress = "123 Main St" };
             var content = new StringContent(JsonSerializer.Serialize(orderDto), Encoding.UTF8, "application/json");
-            await _client.PostAsync("/api/orders?customerId=1", content); // Gold customer, 15% discount
+            await _client!.PostAsync("/api/orders?customerId=1", content);
 
-            // Update order to Delivered
             var statusDto = new OrderStatusUpdateDto { Status = OrderStatus.Delivered };
             var statusContent = new StringContent(JsonSerializer.Serialize(statusDto), Encoding.UTF8, "application/json");
-            await _client.PutAsync("/api/orders/1/status", statusContent);
+            await _client!.PutAsync("/api/orders/1/status", statusContent);
 
-            // Act
-            var requestUri = "/api/analytics/summary";
-            var response = await _client.GetAsync(requestUri);
-
-            // Assert
+            var response = await _client!.GetAsync("/api/analytics/summary");
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var analytics = JsonSerializer.Deserialize<AnalyticsDto>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var analytics = JsonSerializer.Deserialize<AnalyticsDto>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             Assert.That(analytics, Is.Not.Null);
             Assert.That(analytics.AverageOrderValue, Is.EqualTo(85m)); // 100 - 15% discount
             Assert.That(analytics.AverageFulfillmentTime, Is.GreaterThanOrEqualTo(0));
@@ -66,14 +53,9 @@ namespace OrderManagementService.Tests.IntegrationTests
         [Test]
         public async Task GetAnalytics_NoOrders_ReturnsZeroValues()
         {
-            // Act
-            var requestUri = "/api/analytics/summary";
-            var response = await _client.GetAsync(requestUri);
-
-            // Assert
+            var response = await _client!.GetAsync("/api/analytics/summary");
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            var responseContent = await response.Content.ReadAsStringAsync();
-            var analytics = JsonSerializer.Deserialize<AnalyticsDto>(responseContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            var analytics = JsonSerializer.Deserialize<AnalyticsDto>(await response.Content.ReadAsStringAsync(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
             Assert.That(analytics, Is.Not.Null);
             Assert.That(analytics.AverageOrderValue, Is.EqualTo(0m));
             Assert.That(analytics.AverageFulfillmentTime, Is.EqualTo(0.0));
@@ -84,8 +66,8 @@ namespace OrderManagementService.Tests.IntegrationTests
         {
             _client?.Dispose();
             _factory?.Dispose();
-            _client = null!;
-            _factory = null!;
+            _client = null;
+            _factory = null;
         }
     }
 }

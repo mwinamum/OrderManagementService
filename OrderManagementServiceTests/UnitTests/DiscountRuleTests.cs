@@ -17,7 +17,7 @@ namespace OrderManagementServiceTests.UnitTests
         {
             // Arrange
             var mockRule = new Mock<IDiscountRule>();
-            var customer = new Customer { Id = 1, Segment = "Regular", OrderCount = 5 };
+            var customer = new Customer { Id = 1, Segment = "Regular" };
             var order = new Order { Id = 1, CustomerName = "Test", CustomerEmail = "test@example.com", ShippingAddress = "123 Main St", OrderDate = DateTime.Now, Status = 0, TotalAmount = 100m, OriginalTotalAmount = 100m };
             decimal expectedDiscounted = 90m;
 
@@ -38,7 +38,7 @@ namespace OrderManagementServiceTests.UnitTests
         {
             // Arrange
             var mockRule = new Mock<IDiscountRule>();
-            var customer = new Customer { Id = 2, Segment = "Regular", OrderCount = 1 };
+            var customer = new Customer { Id = 2, Segment = "Regular" };
             var order = new Order { Id = 2, CustomerName = "Test2", CustomerEmail = "test2@example.com", ShippingAddress = "456 Main St", OrderDate = DateTime.Now, Status = 0, TotalAmount = 50m, OriginalTotalAmount = 50m };
 
             mockRule.Setup(r => r.IsApplicable(customer, order)).Returns(false);

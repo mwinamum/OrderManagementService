@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Projects\\OrderManagement2\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj": {}
+    "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj": {}
   },
   "projects": {
-    "D:\\Projects\\OrderManagement2\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj": {
+    "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\OrderManagement2\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj",
+        "projectUniqueName": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj",
         "projectName": "OrderManagementServiceTests",
-        "projectPath": "D:\\Projects\\OrderManagement2\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj",
+        "projectPath": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\OrderManagementServiceTests.csproj",
         "packagesPath": "C:\\Users\\Kodak\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\OrderManagement2\\OrderManagementServiceTests\\obj\\",
+        "outputPath": "D:\\Projects\\OrderManagement\\OrderManagementServiceTests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -32,8 +32,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\Projects\\OrderManagement2\\OrderManagementService\\OrderManagementService.csproj": {
-                "projectPath": "D:\\Projects\\OrderManagement2\\OrderManagementService\\OrderManagementService.csproj"
+              "D:\\Projects\\OrderManagement\\OrderManagementService\\OrderManagementService.csproj": {
+                "projectPath": "D:\\Projects\\OrderManagement\\OrderManagementService\\OrderManagementService.csproj"
               }
             }
           }
@@ -99,14 +99,14 @@
         }
       }
     },
-    "D:\\Projects\\OrderManagement2\\OrderManagementService\\OrderManagementService.csproj": {
+    "D:\\Projects\\OrderManagement\\OrderManagementService\\OrderManagementService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Projects\\OrderManagement2\\OrderManagementService\\OrderManagementService.csproj",
+        "projectUniqueName": "D:\\Projects\\OrderManagement\\OrderManagementService\\OrderManagementService.csproj",
         "projectName": "OrderManagementService",
-        "projectPath": "D:\\Projects\\OrderManagement2\\OrderManagementService\\OrderManagementService.csproj",
+        "projectPath": "D:\\Projects\\OrderManagement\\OrderManagementService\\OrderManagementService.csproj",
         "packagesPath": "C:\\Users\\Kodak\\.nuget\\packages\\",
-        "outputPath": "D:\\Projects\\OrderManagement2\\OrderManagementService\\obj\\",
+        "outputPath": "D:\\Projects\\OrderManagement\\OrderManagementService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -147,7 +147,11 @@
           "dependencies": {
             "AutoMapper": {
               "target": "Package",
-              "version": "[14.0.0, )"
+              "version": "[12.0.1, )"
+            },
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[12.0.1, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
