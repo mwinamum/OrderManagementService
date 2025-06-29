@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
@@ -12,22 +13,25 @@ using OrderManagementService.Dtos;
 using OrderManagementService.Enum;
 using OrderManagementService.Interfaces;
 using OrderManagementService.Models;
-using OrderManagementService.Services; // Adjust namespace as needed
+using OrderManagementService.Services;
 using System.Net;
 using System.Text.Json;
 
 namespace OrderManagementServiceTests.IntegrationTests
 {
+    /// <summary>
+    /// Integration tests for the AnalyticsController, verifying analytics summary endpoints
+    /// using an in-memory SQLite database and mocked discount rules.
+    /// </summary>
     [TestFixture]
     public class AnalyticsControllerIntegrationTests
     {
         private HttpClient? _client;
         private static TestServer? _server;
+        private readonly SqliteConnection _connection;
 
         // Constants for hardcoded strings
-        private const string GoldSegment = "Gold";
-        private const string PremiumSegment = "Premium";
-        private const string TestDbPrefix = "TestDb_";
+        private const string TestDbPrefix = "DataSource=testdb.sqlite";
         private const string BaseAddress = "http://localhost:5174/";
         private const string AnalyticsSummaryEndpoint = "api/analytics/summary";
         private const string TestServerInitializedMessage = "Test server initialized successfully.";
@@ -35,21 +39,45 @@ namespace OrderManagementServiceTests.IntegrationTests
         private const string FailedToInitializeTestEnvironmentMessage = "Failed to initialize test environment. Ensure project configuration is correct.\n";
         private const string endpoint = BaseAddress + AnalyticsSummaryEndpoint;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AnalyticsControllerIntegrationTests"/> class.
+        /// Sets up the SQLite connection string.
+        /// </summary>
+        public AnalyticsControllerIntegrationTests()
+        {
+            _connection = new SqliteConnection(TestDbPrefix);
+        }
+
+        /// <summary>
+        /// One-time setup for the test class.
+        /// Configures the test server, dependency injection, and seeds initial data.
+        /// </summary>
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
             try
             {
+                _connection.Open();
                 var builder = WebHost.CreateDefaultBuilder()
                     .ConfigureServices(services =>
                     {
                         services.AddRouting(); // Add routing services
+
+                        // Register OrderDbContext with SQLite in-memory
+                        services.AddDbContext<OrderDbContext>(options =>
+                            options.UseSqlite(_connection)
+                                   .EnableSensitiveDataLogging());
                         services.AddControllers()
                             .AddApplicationPart(typeof(Program).Assembly)
                             .AddApplicationPart(typeof(AnalyticsController).Assembly);
-                        services.AddDbContext<OrderDbContext>(options =>
-                            options.UseInMemoryDatabase($"{TestDbPrefix}{Guid.NewGuid()}"));
 
+                        // Seed initial data
+                        using (var scope = services.BuildServiceProvider().CreateScope())
+                        {
+                            var dbContext = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
+                            dbContext.Database.EnsureCreated();
+                            SeedData(dbContext);
+                        }
                         // Mock IDiscountRule
                         var discountRuleMock = new Mock<IDiscountRule>();
                         discountRuleMock.Setup(r => r.IsApplicable(It.IsAny<Customer>(), It.IsAny<Order>())).Returns(false); // No discount applied
@@ -79,11 +107,6 @@ namespace OrderManagementServiceTests.IntegrationTests
                 _client!.BaseAddress = new Uri(BaseAddress); // Set the base address before making the request
 
                 Console.WriteLine(TestServerInitializedMessage);
-
-                // Seed test data
-                using var scope = _server.Services.CreateScope();
-                var dbContext = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
-                SeedData(dbContext);
             }
             catch (Exception ex)
             {
@@ -94,16 +117,16 @@ namespace OrderManagementServiceTests.IntegrationTests
             }
         }
 
+        /// <summary>
+        /// Seeds the test database with initial order data.
+        /// </summary>
+        /// <param name="dbContext">The database context to seed.</param>
         private void SeedData(OrderDbContext dbContext)
         {
-            dbContext.Customers.AddRange(
-                new Customer { Id = 1, Segment = GoldSegment },
-                new Customer { Id = 2, Segment = PremiumSegment }
-            );
             dbContext.Orders.AddRange(
                 new Order
                 {
-                    Id = 1,
+                    OrderCount = 1,
                     TotalAmount = 100m,
                     OrderDate = DateTime.Now.AddDays(-1),
                     Status = OrderStatus.Delivered,
@@ -111,7 +134,7 @@ namespace OrderManagementServiceTests.IntegrationTests
                 },
                 new Order
                 {
-                    Id = 2,
+                    OrderCount = 2,
                     TotalAmount = 200m,
                     OrderDate = DateTime.Now.AddDays(-1),
                     Status = OrderStatus.Delivered,
@@ -121,6 +144,9 @@ namespace OrderManagementServiceTests.IntegrationTests
             dbContext.SaveChanges();
         }
 
+        /// <summary>
+        /// Per-test setup to ensure the HTTP client is initialized.
+        /// </summary>
         [SetUp]
         public void SetUp()
         {
@@ -130,10 +156,13 @@ namespace OrderManagementServiceTests.IntegrationTests
             }
         }
 
+        /// <summary>
+        /// Tests that the analytics summary endpoint returns correct values
+        /// when delivered orders exist in the database.
+        /// </summary>
         [Test]
         public async Task GetAnalytics_WithDeliveredOrders_ReturnsCorrectAnalytics()
         {
-
             // Act
             var response = await _client!.GetAsync(AnalyticsSummaryEndpoint);
 
@@ -147,6 +176,10 @@ namespace OrderManagementServiceTests.IntegrationTests
             Assert.That(analytics.AverageFulfillmentTime, Is.EqualTo(24.0).Within(0.01)); // Average of 24 and 24 hours
         }
 
+        /// <summary>
+        /// Tests that the analytics summary endpoint returns zero values
+        /// when there are no orders in the database.
+        /// </summary>
         [Test]
         public async Task GetAnalytics_NoOrders_ReturnsZeroValues()
         {
@@ -169,11 +202,15 @@ namespace OrderManagementServiceTests.IntegrationTests
             Assert.That(analytics.AverageFulfillmentTime, Is.EqualTo(0.0));
         }
 
+        /// <summary>
+        /// One-time teardown to dispose of resources after all tests have run.
+        /// </summary>
         [OneTimeTearDown]
         public void OneTimeTearDown()
         {
             _client?.Dispose();
             _server?.Dispose();
+            _connection?.Dispose();
             _client = null;
             _server = null;
         }
